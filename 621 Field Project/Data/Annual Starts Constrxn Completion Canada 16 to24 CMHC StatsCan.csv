@@ -1,0 +1,45 @@
+﻿"Canada Mortgage and Housing Corporation, housing starts, under construction and completions, all areas, annual 1 2 3",,,,,,,,,,
+Frequency: Annual,,,,,,,,,,
+Table: 34-10-0126-01 (formerly CANSIM 027-0009),,,,,,,,,,
+Release date: 2026-01-21,,,,,,,,,,
+"Geography: Canada, Province or territory",,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,Geography,Canada,,,,,,,,
+Housing estimates,Type of unit,2016,2017,2018,2019,2020,2021,2022,2023,2024
+Housing starts,,Units,,,,,,,,
+,Total units,"197,916","219,763","212,843","208,685","217,880","271,198","261,849","240,267","245,367"
+,Single-detached,"74,089","76,843","65,940","55,869","60,023","82,116","72,647","54,616","54,508"
+,Multiples,"123,827","142,920","146,903","152,816","157,857","189,082","189,202","185,651","190,859"
+,Semi-detached,"10,830","12,291","10,992","10,018","11,398","13,276","11,429","9,440","10,466"
+,Row,"22,653","28,046","23,510","25,147","23,508","28,594","29,735","25,223","25,466"
+,Apartment and other unit types,"90,344","102,583","112,401","117,651","122,951","147,212","148,038","150,988","154,927"
+Housing under construction,Total units,"221,815","248,968","255,885","274,828","292,155","337,459","378,042",..,..
+,Single-detached,"51,108","52,500","45,809","40,563","42,779","54,207","57,195",..,..
+,Multiples,"170,707","196,468","210,076","234,265","249,376","283,252","320,847",..,..
+,Semi-detached,"7,021","7,814","6,995","6,624","7,408","8,403","8,373",..,..
+,Row,"21,721","26,372","23,093","24,726","23,563","27,659","34,210",..,..
+,Apartment and other unit types,"141,965","162,282","179,988","202,915","218,405","247,190","278,264",..,..
+Housing completions,Total units,"187,605","190,923","200,262","187,177","198,761","222,670","219,942",..,..
+,Single-detached,"67,444","74,463","70,419","60,336","57,031","68,831","69,744",..,..
+,Multiples,"120,161","116,460","129,843","126,841","141,730","153,839","150,198",..,..
+,Semi-detached,"10,835","11,408","11,648","10,369","10,569","12,168","11,360",..,..
+,Row,"21,493","23,071","26,287","23,183","24,334","24,042","23,112",..,..
+,Apartment and other unit types,"87,833","81,981","91,908","93,289","106,827","117,629","115,726",..,..
+,,,,,,,,,,
+Symbol legend:,,,,,,,,,,
+.., not available for a specific reference period,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+Footnotes:,,,,,,,,,,
+1,"Geographical areas modified every 5 years to reflect most recent census definitions, therefore, data are not strictly comparable historically.",,,,,,,,,
+2,"These data are obtained from Canada Mortgage and Housing Corporation (CMHC) and are provided subject to <a href=https://www.cmhc-schl.gc.ca/en/data-and-research/cmhc-licence-agreement-use-of-data"" rel=""external noopener noreferrer"" target=""_blank""> CMHC Licence Agreement for the Use of Data (opens new window)</a>.""",,,,,,,,,
+3,"For additional information and definitions, refer to <a href= https://www03.cmhc-schl.gc.ca/hmip-pimh/en/TableMapChart/ScsMasMethodology"" rel=""external noopener noreferrer"" target=""_blank""> CMHC Starts and Completions Survey Methodology and Definitions (opens new window)</a>.""",,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+,,,,,,,,,,
+"How to cite: Statistics Canada. Table 34-10-0126-01  Canada Mortgage and Housing Corporation, housing starts, under construction and completions, all areas, annual",,,,,,,,,,
+https://www150.statcan.gc.ca/t1/tbl1/en/tv.action?pid=3410012601,,,,,,,,,,
