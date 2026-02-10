@@ -100,6 +100,8 @@ def load_registrations():
 
 
 def load_economic():
+    """Load real economic indicators from Data/Economic_Indicators_Canada.csv.
+    If missing, runs fetch_economic_indicators (requires pandas_datareader; uses FRED real data)."""
     path = DATA_DIR / "Economic_Indicators_Canada.csv"
     if not path.exists():
         from fetch_economic_indicators import main as fetch_main
@@ -309,6 +311,7 @@ def main():
     test_df = df_annual.loc[test_mask].dropna(subset=["Completions"] + use_cols, how="any")
     pred_te, y_te = None, None
     mae_s, r2_s = np.nan, np.nan
+    mae_s1r3, r2_s1r3, mae_te_s1r3, r2_te_s1r3 = np.nan, np.nan, np.nan, np.nan
     if len(train_df) >= 5 and len(test_df) >= 1:
         X_tr = train_df[use_cols].fillna(train_df[use_cols].median())
         y_tr = train_df["Completions"]
@@ -341,6 +344,50 @@ def main():
                 print(f"Simple model (Starts_Lag1 + top 3 economic): Test MAE = {mae_s:.0f}, Test R² = {r2_s:.3f}")
     else:
         test_mae, test_r2 = np.nan, np.nan
+
+    # ---------- Separate model: Starts Lag-1 + Registrations Lag-3 ----------
+    model_s1r3_cols = ["Starts_Lag1", "Reg_Lag3"]
+    if all(c in df_annual.columns for c in model_s1r3_cols):
+        train_s1r3 = df_annual.dropna(subset=["Completions", "Starts_Lag1", "Reg_Lag3"])
+        if len(train_s1r3) >= 5:
+            X_s1r3 = train_s1r3[model_s1r3_cols]
+            y_s1r3 = train_s1r3["Completions"]
+            scaler_s1r3 = StandardScaler()
+            X_s1r3_s = scaler_s1r3.fit_transform(X_s1r3)
+            model_s1r3 = Ridge(alpha=1.0).fit(X_s1r3_s, y_s1r3)
+            pred_s1r3 = model_s1r3.predict(X_s1r3_s)
+            mae_s1r3 = mean_absolute_error(y_s1r3, pred_s1r3)
+            r2_s1r3 = r2_score(y_s1r3, pred_s1r3)
+            print(f"\nStarts Lag-1 + Registrations Lag-3 model: in-sample MAE = {mae_s1r3:.0f}, R² = {r2_s1r3:.3f} (n={len(train_s1r3)})")
+            # Test set if available
+            test_s1r3 = df_annual.loc[test_mask].dropna(subset=["Completions", "Starts_Lag1", "Reg_Lag3"]) if "test_mask" in dir() else pd.DataFrame()
+            if len(test_s1r3) >= 1:
+                X_te_s1r3 = test_s1r3[model_s1r3_cols]
+                X_te_s1r3_s = scaler_s1r3.transform(X_te_s1r3)
+                pred_te_s1r3 = model_s1r3.predict(X_te_s1r3_s)
+                mae_te_s1r3 = mean_absolute_error(test_s1r3["Completions"], pred_te_s1r3)
+                r2_te_s1r3 = r2_score(test_s1r3["Completions"], pred_te_s1r3)
+                print(f"  Test MAE = {mae_te_s1r3:.0f}, Test R² = {r2_te_s1r3:.3f}")
+            else:
+                mae_te_s1r3, r2_te_s1r3 = np.nan, np.nan
+            # Save metrics
+            row = {"Model": "Starts_Lag1_plus_Reg_Lag3", "MAE_in_sample": mae_s1r3, "R2_in_sample": r2_s1r3, "n_train": len(train_s1r3)}
+            if len(test_s1r3) >= 1:
+                row["MAE_test"] = mae_te_s1r3
+                row["R2_test"] = r2_te_s1r3
+            pd.DataFrame([row]).to_csv(OUT_DIR / "model_starts1_reg3_metrics.csv", index=False)
+            # Plot: actual vs predicted (in-sample)
+            fig_s1r3, ax_s1r3 = plt.subplots(figsize=(8, 6))
+            ax_s1r3.scatter(y_s1r3, pred_s1r3, s=60, color=COLORS[6], label="Starts Lag-1 + Reg Lag-3")
+            mn, mx = min(y_s1r3.min(), pred_s1r3.min()), max(y_s1r3.max(), pred_s1r3.max())
+            ax_s1r3.plot([mn, mx], [mn, mx], "k--", label="Perfect")
+            ax_s1r3.set_xlabel("Actual Completions")
+            ax_s1r3.set_ylabel("Predicted Completions")
+            ax_s1r3.set_title("Model: Completions ~ Starts (Lag-1) + Registrations (Lag-3)")
+            ax_s1r3.legend()
+            fig_s1r3.tight_layout()
+            fig_s1r3.savefig(OUT_DIR / "forecast_08_model_starts1_reg3.png", dpi=150, bbox_inches="tight")
+            plt.close(fig_s1r3)
 
     # ---------- Save outputs ----------
     if not annual_lag_df.empty:
@@ -466,7 +513,11 @@ def main():
         f.write(f"Full model (Ridge, all lags + economic): Test MAE = {test_mae:.0f}, Test R² = {test_r2:.3f}\n")
         if not np.isnan(mae_s):
             f.write(f"Simple model (Starts_Lag1 + top 3 economic): Test MAE = {mae_s:.0f}, Test R² = {r2_s:.3f} (preferred for small test set)\n")
-    print("\nDone. Outputs in outputs/: forecast_*.png, optimal_lag_*.csv, economic_*.csv, forecast_summary.txt")
+        if not np.isnan(mae_s1r3):
+            f.write(f"Starts Lag-1 + Registrations Lag-3 model: in-sample MAE = {mae_s1r3:.0f}, R² = {r2_s1r3:.3f}\n")
+            if not np.isnan(mae_te_s1r3):
+                f.write(f"  Test MAE = {mae_te_s1r3:.0f}, Test R² = {r2_te_s1r3:.3f}\n")
+    print("\nDone. Outputs in outputs/: forecast_*.png, optimal_lag_*.csv, economic_*.csv, model_starts1_reg3_metrics.csv, forecast_summary.txt")
 
 
 if __name__ == "__main__":

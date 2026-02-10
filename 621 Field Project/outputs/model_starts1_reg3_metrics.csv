@@ -1,0 +1,2 @@
+Model,MAE_in_sample,R2_in_sample,n_train,MAE_test,R2_test
+Starts_Lag1_plus_Reg_Lag3,1907.6051411956385,0.6254150068562356,7,3304.700669412032,0.2315403854302701

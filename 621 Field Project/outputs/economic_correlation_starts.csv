@@ -1,12 +1,6 @@
 Indicator,Correlation_with_Starts
-Unemployment_Rate,-0.4062715099320817
-CPI_Index,0.6918968888662537
-Policy_Rate,-0.3883298157383855
-GDP_Growth_Pct,-0.04407060875371856
-Employment_Index,0.52578910933492
-Industrial_Production_Index,0.6098079776845394
-Consumer_Confidence_Index,0.13746221821258
-Housing_Starts_Canada_Total,0.3971475251008407
-Population_Growth_Pct,0.008967768146930717
-Inflation_YoY_Pct,0.19128413357522595
-Mortgage_Rate_5Y_Pct,-0.21852939405877583
+Unemployment_Rate,-0.2637734661228986
+CPI_Index,0.6152262026364215
+Policy_Rate,-0.02562686391016512
+Interest_Rate_5Y,-0.30193385327038635
+Employment_Index,0.5354643924900648

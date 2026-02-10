@@ -157,9 +157,9 @@ For annual BC data:
 
 ### 7.2 Economic indicators
 
-**Data:** 11 Canadian economic indicators (from `Data/Economic_Indicators_Canada.csv`). If the file is missing, run `py fetch_economic_indicators.py` to generate synthetic annual data; for real analysis, replace with Stats Canada / FRED data.
+**Data:** Canadian economic indicators are **real-world data** from FRED (Federal Reserve Economic Data), saved to `Data/Economic_Indicators_Canada.csv`. The pipeline uses real data only: run `py fetch_economic_indicators.py` (requires `pandas-datareader`); if the CSV is missing, the forecasting script will call the fetch and exit with instructions if FRED is unavailable. Synthetic data is not used unless you explicitly run with `--allow-synthetic` for testing.
 
-**Indicators used:** Unemployment_Rate, CPI_Index, Policy_Rate, GDP_Growth_Pct, Employment_Index, Industrial_Production_Index, Consumer_Confidence_Index, Housing_Starts_Canada_Total, Population_Growth_Pct, Inflation_YoY_Pct, Mortgage_Rate_5Y_Pct.
+**Indicators used (FRED, real data):** Unemployment_Rate, CPI_Index, Policy_Rate, Interest_Rate_5Y, Employment_Index (and Housing_Starts_Canada_Total when available). Fetched via FRED CSV download (no API key required).
 
 **Correlation with Completions (BC annual):**  
 - **Strongest positive:** CPI_Index (r ≈ 0.62), Housing_Starts_Canada_Total (r ≈ 0.47), Industrial_Production_Index (r ≈ 0.47), Employment_Index (r ≈ 0.41).  
@@ -183,7 +183,17 @@ So **CPI, Canada housing starts, industrial production, and employment** move wi
 - **Simple model:** Completions ~ Starts_Lag1 + Reg_Lag1 + top 3 economic indicators (by correlation with completions). Fewer features to improve stability on a small test set.  
 - **Outputs:** `outputs/forecast_01_best_lag_monthly.png`, `forecast_02_best_lag_annual.png`, `forecast_03_economic_corr_completions.png`, `forecast_04_economic_corr_starts.png`, `forecast_05_coefficients_completions.png`, `forecast_06_coefficients_starts.png`, `forecast_07_actual_vs_predicted_test.png`, `optimal_lag_monthly.csv`, `optimal_lag_annual.csv`, `economic_correlation_*.csv`, `economic_coefficients_*.csv`, `forecast_summary.txt`.
 
-**Note:** With only 2 test years, test R² can be volatile. The **simple model** (Completions ~ Starts_Lag1 + Reg_Lag1 + top 3 economic indicators) typically gives more stable out-of-sample results (e.g. Test MAE ≈ 2,926, Test R² ≈ 0.04) than the full Ridge model with all lags and indicators. Prefer the simple model for small test sets. Replace synthetic economic data with real Stats Canada / FRED series for final deliverables.
+**Note:** With only 2 test years, test R² can be volatile. The **simple model** (Completions ~ Starts_Lag1 + Reg_Lag1 + top 3 economic indicators) typically gives more stable out-of-sample results than the full Ridge model. Economic data is from FRED (real) by default.
+
+### 7.4 Separate model: Starts (Lag-1) + Registrations (Lag-3)
+
+A dedicated model uses **Starts (lag 1 year)** and **Registrations (lag 3 years)** only: Completions ~ Starts_Lag1 + Reg_Lag3 (Ridge, α=1). This aligns with the finding that starts are best at 1-year lag and registrations add signal at 3-year lag.
+
+**Representative metrics (from pipeline run):**
+- **In-sample:** MAE ≈ 1,908 units, R² ≈ 0.63 (n=7 years, limited by registration data from 2016 onward).
+- **Test (last 2 years):** MAE ≈ 3,305, R² ≈ 0.23.
+
+**Outputs:** `outputs/model_starts1_reg3_metrics.csv`, `outputs/forecast_08_model_starts1_reg3.png` (actual vs predicted).
 
 ---
 
@@ -192,12 +202,13 @@ So **CPI, Canada housing starts, industrial production, and employment** move wi
 From the project folder:
 
 ```bash
-py fetch_economic_indicators.py   # creates Data/Economic_Indicators_Canada.csv (or use real data)
-py bc_housing_analysis.py        # main analysis + 15+ graphs
-py bc_housing_forecasting.py     # optimal lags, economic impact, improved forecasting
+py -m pip install -r requirements.txt   # install deps including pandas-datareader for real economic data
+py fetch_economic_indicators.py         # fetches real FRED data to Data/Economic_Indicators_Canada.csv
+py bc_housing_analysis.py               # main analysis + 15+ graphs
+py bc_housing_forecasting.py             # optimal lags, economic impact, improved forecasting
 ```
 
-**Requirements:** `pandas`, `numpy`, `matplotlib`, `seaborn`, `scikit-learn`, `openpyxl`. Optional: `pandas-datareader` to fetch economic data from FRED.  
+**Requirements:** `pandas`, `numpy`, `matplotlib`, `seaborn`, `scikit-learn`, `openpyxl`, **`pandas-datareader`** (required for real economic data from FRED). See `requirements.txt`.  
 **Outputs:** All figures in **`outputs/`** (including `forecast_*.png`), **`prediction_metrics.csv`**, **`optimal_lag_*.csv`**, **`economic_correlation_*.csv`**, **`economic_coefficients_*.csv`**, **`forecast_summary.txt`**.
 
 ---

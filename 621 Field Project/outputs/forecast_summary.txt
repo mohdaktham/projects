@@ -2,7 +2,9 @@ BC Housing Enhanced Forecasting — Summary
 =========================================
 Best monthly lag (Starts->Completions): 12 months (by |corr|), 12 months (by MAE)
 Best annual lags: see optimal_lag_annual.csv
-Economic indicators loaded: 11
-Strongest correlation with Completions: CPI_Index (r=0.619)
-Strongest correlation with Starts: CPI_Index (r=0.692)
-Final model Test MAE: 6614, Test R²: -2.077
+Economic indicators loaded: 5
+Strongest correlation with Completions: CPI_Index (r=0.470)
+Strongest correlation with Starts: CPI_Index (r=0.615)
+Full model (Ridge, all lags + economic): Test MAE = nan, Test R² = nan
+Starts Lag-1 + Registrations Lag-3 model: in-sample MAE = 1908, R² = 0.625
+  Test MAE = 3305, Test R² = 0.232
