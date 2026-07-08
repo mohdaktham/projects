@@ -1,26 +1,14 @@
-# projects
+# Graduate Analytics Projects
 
-**Convention:** Unless stated otherwise, **separate projects** go in **different folders** inside this directory: `D:\projects\projects\<project-name>`. New projects should be created here.
+Selected projects from my MSc in Management Analytics (Wilfrid Laurier University) and personal work.
+Full portfolio with writeups: **[mohdaktham.github.io](https://mohdaktham.github.io)**
 
-A collection of small **projects** and experiments.
+| Folder | Project | Stack |
+|--------|---------|-------|
+| [`611-group-project/`](611-group-project/) | **Walmart Retail Sales Forecasting** — XGBoost vs LSTM with holiday-weighted features and SHAP interpretability (MGTA 611) | Python, XGBoost, TensorFlow/Keras, SHAP |
+| [`621 Field Project/`](621%20Field%20Project/) | **BC Housing: Starts vs Registrations as Leading Indicators** — client field project quantifying conversion rates, time lags, and economic drivers; 15+ charts and model comparisons (MGTA 621) | Python, regression, CMHC data |
+| [`BackTest Buddy/`](BackTest%20Buddy/) | **Equity Strategy Backtester** — web app for entry/exit rule testing with Sharpe ratio and max-drawdown evaluation | Python, Flask, Backtrader, yfinance |
+| [`CSGO ML/`](CSGO%20ML/) | **CS:GO Match Prediction** — ML classification notebook | Python, scikit-learn |
 
-## Contents
-
-| Folder | Description |
-|--------|-------------|
-| **611-group-project** | MGTA 611 Group Project — Deep Learning for retail sales forecasting (Walmart-style data). Notebook: data prep, XGBoost baseline, LSTM, SHAP. |
-| **BackTest Buddy** | Stock backtesting with Python: **Flask** web app + **Backtrader**. Strategies: Buy & Hold, Moving Average Crossover, RSI, MACD. Uses **yfinance** for data. |
-| **ClockIn App** | Clock-in app materials: project dumps and source zips (e.g. `202050920_project_dump.zip`, `202050920_project_source.zip`). |
-| **CSGO ML** | **CS:GO** round-winner prediction / correlation analysis in a Jupyter notebook (`Project.ipynb`). Uses OpenML dataset, pandas, matplotlib, seaborn; analyzes features (e.g. armor, weapons, bomb_planted) vs round outcome. |
-| **random game** | Small game experiment (see `new` and contents in `random game/`). |
-
-## Quick Start
-
-- **BackTest Buddy** – run Flask app (e.g. `python main.py` in `BackTest Buddy/`), then open the web UI; ensure `backtrader`, `yfinance`, `flask` are installed.
-- **CSGO ML** – open `CSGO ML/Project.ipynb` in Jupyter and run cells.
-- **ClockIn App** – unzip the source/dump archives and follow any docs inside.
-- **random game** – see files in `random game/` for run instructions.
-
----
-
-*Add links or extra setup per project as needed.*
+## Contact
+Mohammadaktham@gmail.com · [LinkedIn](https://linkedin.com/in/mo-maghaireh-868554170) · [Portfolio](https://mohdaktham.github.io)
